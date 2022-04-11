@@ -1,1 +1,105 @@
+#randomly selectable words in a list set to be chosen for the game
+vocab = [
+    "Rai", "Zimmerman", "Kwantlen","Riddle", "Bat", "Blade", "Lightning", "Titan", "Eye", "Rumble", "Night", "Fear", 
+    "Vengeance", "Anger", "Cat", "Peace", "Revenge", "Innocence", "Illusion","Destruction", "Decimation", "Tearless", "Loss", 
+    "Melancholy", "Disaster", "Danger", "Justice", "Dark", "Delusion", "Rage"
+]
 
+#the variable below assigns each hangman drawing to an index that will be called at the appropriate time during the game
+dead_man = [
+    '''
+     +---+
+     O   |
+    /|\  |
+    / \  |
+        ===
+    ''',
+    '''
+     +---+
+     O   |
+    /|\  |
+    /    |
+        ===
+    ''',
+    '''
+     +---+
+     O   |
+    /|\  |
+         |
+        ===
+    ''', 
+    '''
+     +---+
+     O   |
+    /|   |
+         |
+        ===
+    ''', 
+    '''
+     +---+
+     O   |
+     |   |
+         |
+       ===
+    ''',
+    '''
+     +---+
+     O   |
+         |
+         |
+        ===
+    ''',
+    '''
+     +---+
+         |
+         |
+         |
+        ===
+    '''
+]
+
+#these words of encouragement display when user guesses correctly
+encouragement = [
+    "Good job!",
+    "Fantastic!",
+    "You're so talented!",
+    "Amazing!",
+    "You're on a roll!",
+    "I am so proud of you!",
+    "Bravo!",
+    "Over the top!",
+    "Almost there!",
+    "You got this!",
+    "Excellent"
+]
+
+#these words of beratement display when user guesses incorrectly
+beratement = [
+    "You're terrible",
+    "You're not too good at this",
+    "Why are you even still trying",
+    "You call this effort?",
+    "Are you sure you're doing okay?",
+    "Disgusting!",
+    "Yuck",
+    "Leave the room",
+    "Disappointment",
+    "Not even close",
+    "Don't make me laugh"
+]
+
+#the riddles randomly chosen for my modification
+riddles = [
+    "What does a liar do when he's dead?",
+    "The less of them you have, the more one is worth.",
+    "It can be cruel, poetic, or blind. But when it is denied, it is violence you may find.",
+    "If you are justice, please do not lie. What is the price for your blind eye?"
+]
+
+"""
+ANSWER KEY for riddles in order of index:
+C.
+A. 
+D.
+B.
+"""
