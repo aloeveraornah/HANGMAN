@@ -1,0 +1,102 @@
+import random #this allows for words to be randomized in the list
+from hangman2 import riddles, vocab, dead_man, encouragement, beratement #this line and the 2 below it calls list variables from file hangman2.py for the sake of neatness
+import string #this assures that each character in python is assigned a designated number
+import time
+
+def random_word(vocab):
+    if "Zimmerman" in vocab:
+        vocab.remove("Rai") #this line and the line below assures that Rai and Zimmerman are not selected from the list
+        vocab.remove("Zimmerman")
+    word = random.choice(vocab) #randomly picks a word from the set list of words to choose from
+    while "-" in word or " " in word: #this loop removes the - and spaces in the word from the list
+        word = random.choice(vocab)
+    return word.upper() #this returns the parameter value for the random word to the other function that calls this one
+
+def hangtheman():
+    word = random_word(vocab) #assigning the random word from function random_word() to variable "word"
+    correct_letters = set(word) #the letters in the word chosen
+    alphabet = set(string.ascii_uppercase) #assigning individual letters to a number
+    expired_letters = set() #the letters guessed by user
+    global lives
+    lives = 6 #the number of lives the user gets before losing
+
+    print("Welcome to Hangman!")
+    print(dead_man[lives]) #prints the first picture of the hangman at the very beginning of the game
+    while len(correct_letters) > 0 and lives>0: #loop repeats until all the correct letters are guessed and "run out" or the user loses all their lives
+        time.sleep(1) #time delay of 1 second before user can guess to add suspense
+        print("You have", lives, "lives remaining and letters already guessed include: ", " ".join(expired_letters)) #join function turns list into one string and adds a space in-between list items
+        word_list = [letter if letter in expired_letters else '-' for letter in word] #this displays the letters guessed and the letters not guessed as dashes (ex: W - R D)
+        print("The word so far: ", " ".join(word_list)) #join function turns list into one string and adds a space in-between list items
+        
+        guess_letter = input("Hangman! Guess a letter: " ).upper() #user inputs their guess and the word is automatically capitalized
+        time.sleep(1) #time delay of 1 second after the user makes a guess to add suspense before displaying the result
+        if guess_letter in alphabet - expired_letters: #this if statement adds the guessed letter to letters already guessed
+            expired_letters.add(guess_letter)
+            if guess_letter in correct_letters: #if the guessed letter happens to be a part of the correct word the letter is crossed off so that it doesn't need to be guessed again
+                print(f"Correct! {random.choice(encouragement)}") #selects and displays a random word of encouragement if user guesses correctly
+                correct_letters.remove(guess_letter)
+        
+            else:
+                lives-=1 #if the letter guessed is not in the "correct_letters" variable the variable "life" subtracts one
+                print(f"Incorrect! {random.choice(beratement)}") #selects and displays a random word of beratement if user guesses incorrectly
+                print(dead_man[lives]) #prints a picture of the hangman gaining a limb every time the user guesses incorrectly
+
+        elif guess_letter in expired_letters: #this elif statement assures that the user cannot guess a letter already guessed before
+            print("You have already guessed that letter, guess a different one") #this prints after user guesses a letter they forgot they used already
+
+        else: #if a letter is not used, it goes against the alphabet variable set so it tells the user that they must enter a valid letter
+            print("You used a wrong character, guess a letter please")
+
+    if lives>0: #if the word is correctly guessed without running out of lives the user "wins"
+        print("Congratulations, you have correctly guessed the word", word, "without letting the man hang!")
+    elif lives==0: #this elif statement occurs when the word is not guessed by the time the user runs out of lives and "loses"
+        print("You could not guess the word", word, "with the amount of lives given to save the man, shame on you")
+
+def riddle_me_this():
+    selected_riddle = random.choice(riddles) #this randomly selects one riddle out of four from an imported list variable
+    while True: #this while loop is used so the user gets to keep trying until he either succeeds or wants to quit
+        riddle_guess = input(f"Riddle me this! {selected_riddle} Type A for 'friend', B for 'Bribe', C for 'He lies still', D for 'Justice' \
+or q if you give up and want to leave: ")
+        time.sleep(3) #I put a time delay here for some added suspense in my riddle game
+        #I decided to use indexes in order to assure that the random riddle chosen can match with the answer given from user input
+        if selected_riddle == riddles[0] and riddle_guess == "C":
+            print("CORRECT! HANGMAN TIME!")
+            hangtheman()
+            break
+        elif selected_riddle == riddles[1] and riddle_guess == "A":
+            print("CORRECT! HANGMAN TIME!")
+            hangtheman()
+            break
+        elif selected_riddle == riddles[2] and riddle_guess == "D":
+            print("CORRECT! HANGMAN TIME!")
+            hangtheman()
+            break
+        elif selected_riddle == riddles[3] and riddle_guess == "B":
+            print("CORRECT! HANGMAN TIME!")
+            hangtheman()
+            break
+        elif riddle_guess == "q":
+            print("Was the riddle too hard for you? FUFUFUFUFU!")
+            quit()
+        else:
+            print("Not quite! JAJAJAJAJA! Better keep trying!")
+
+hangtheman() #this calls the game
+while True: #this while loop will start after the first game ends and asks the user if they want to play again
+        play_again = input("Would you like play again? Type 'Y' for yes or 'N' for no: ")
+        """
+        This is my modification of the game and I call it "The Riddle game" where if the user wants to play again
+        after winning/losing the first hangman game they must answer a randomly chosen riddle out of four correctly in
+        order to do so instead of getting a free pass whenever they wish. Every time the user finishes a game of hangman
+        and chooses to play again the code will randomly select another riddle out of the four for the user to guess once more.
+        """
+        if play_again == "Y":
+            print("NOT SO FAST BUSTER!!! IF YOU WANT TO PLAY AGAIN YOU NEED TO PROVE TO ME THAT YOU'RE EITHER GOING TO \
+REDEEM YOURSELF AFTER THAT PITIFUL LOSS OR BE MENTALLY PREPARED TO WIN AGAIN. THIS GAME IS NO JOKE MAN \
+HANGMAN IS NO JOKE. TIME FOR SOME RIDDLES!!! GUESS IT RIGHT AND YOU MAY PROCEED!!! HARHARHARHARHAR!!!")
+            riddle_me_this()
+        elif play_again == "N":
+            print("Thanks for playing!")
+            quit()
+        else: 
+            print("Invalid response, please enter either 'Y' or 'N'")
